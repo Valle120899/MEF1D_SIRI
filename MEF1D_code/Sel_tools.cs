@@ -76,8 +76,6 @@ namespace MEF1D_code
             row2.Add(-k/l); row2.Add(k/l);
             //Se insertan las filas en la matriz
             K.Add(row1); K.Add(row2);
-            
-            
             return K;
         }
 
@@ -114,6 +112,7 @@ namespace MEF1D_code
                 localKs.Add(createLocalK(i,ref m));
                 localbs.Add(createLocalb(i,ref m));
             }
+            
         }
 
         //La función recibe:
@@ -129,10 +128,23 @@ namespace MEF1D_code
             int index2 = e.getNode2() - 1;
             //Se utilizan los índices para definir las celdas de la submatriz
             //a la que se agrega la matriz local del elemento actual
-            K[index1][index1] += localK[0][0];
-            K[index1][index2] += localK[0][1];
-            K[index2][index1] += localK[1][0];
-            K[index2][index2] += localK[1][1];
+
+            double aux = 0;
+            aux= K[index1][index1];
+            aux += localK[0][0];
+            K[index1][index1] = aux;
+
+            aux= K[index1][index2];
+            aux += localK[0][1];
+            K[index1][index2] = aux;
+
+            aux= K[index2][index1];
+            aux += localK[1][0];
+            K[index2][index1] = aux;
+
+            aux= K[index2][index2];
+            aux += localK[1][1];
+            K[index2][index2] = aux;
         }
 
         //La función recibe:

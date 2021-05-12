@@ -46,8 +46,8 @@ namespace MEF1D_code
                     string phrase2 = file.ReadLine();
                     string[] words2 = phrase2.Split(' ');
                     e1 = Int32.Parse(words2[0]);
-                    e2 = Int32.Parse(words2[0]);
-                    e3 = Int32.Parse(words2[0]);
+                    e2 = Int32.Parse(words2[1]);
+                    e3 = Int32.Parse(words2[2]);
                     //Se instancia los tres enteros en el objeto actual
                     item_list[i].setIntIntInt(e1,e2,e3);
                     break;

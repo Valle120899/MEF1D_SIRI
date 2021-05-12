@@ -46,6 +46,7 @@ namespace MEF1D_code
             //Se inicializan con ceros la K global y la b global
             Math_tools.zeroes(ref K,m.getSize((int)sizesE.NODES));
             Math_tools.zeroes(ref b,m.getSize((int)sizesE.NODES));
+            
             //Se procede al proceso de ensamblaje
             Sel_tools.ensamblaje(ref m,ref localKs,ref localbs,ref K,ref b);
             

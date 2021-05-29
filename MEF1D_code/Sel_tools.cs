@@ -16,7 +16,7 @@ namespace MEF1D_code
             for(int i=0;i<K[0].Count;i++){
                 Console.Write("[\t");
                 for(int j=0;j<K.Count;j++){
-                    Console.Write(K[i][j] + "\t");
+                    Console.Write(Math.Round(K[i][j],2) + "\t");
                 }
                 Console.Write("]\n");
             }
@@ -39,7 +39,7 @@ namespace MEF1D_code
         public static void showVector(Vector b){
             Console.Write("[\t");
             for(int i=0;i<b.Count;i++){
-                Console.Write(b[i] + "\t");
+                Console.Write(Math.Round(b[i],2) + "\t");
             }
             Console.Write("]\n");
         }

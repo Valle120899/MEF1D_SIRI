@@ -58,11 +58,15 @@ namespace MEF1D_code
             //asegurándose de sus dimensiones
             zeroes(ref copy,A.Count);
             //Se recorre la matriz original
-            for(int i=0;i<A.Count;i++)
+            for(int i=0;i<A.Count;i++){
                 for(int j=0;j<A[0].Count;j++)
+                {
                     //Se coloca la celda actual de la matriz original
                     //en la misma posición dentro de la copia
-                    copy[i][j] = A[i][j];
+                    double aux =A[i][j];
+                    copy[i][j] = aux;
+                }
+            }
         }
 
 
@@ -83,7 +87,8 @@ namespace MEF1D_code
                 double cell = 0.0;
                 //Se calcula el valor de la celda de acuerdo a la formulación
                 for(int c=0;c<v.Count;c++){
-                    cell += A[f][c]*v[c];
+                    double aux =A[f][c];
+                    cell += aux*v[c];
                 }
                 //Se coloca el valor calculado en su celda correspondiente en la respuesta
                 R[f] += cell;
@@ -102,11 +107,15 @@ namespace MEF1D_code
             //matriz
             zeroes(ref R,M.Count);
             //Se recorre la matriz original
-            for(int i=0;i<M.Count;i++)
-                for(int j=0;j<M[0].Count;j++)
+            for(int i=0;i<M.Count;i++){
+                for(int j=0;j<M[0].Count;j++){
                     //La celda actual se multiplica por el real, y se almacena
                     //el resultado en la matriz de respuesta
-                    R[i][j] = real*M[i][j];
+                    double aux = M[i][j];
+                    R[i][j] = real*aux;
+                }
+            }
+            
         }
 
         //La función recibe:
@@ -127,8 +136,8 @@ namespace MEF1D_code
         //- Una matriz
         //La función calcula el determinante de la matriz de forma recursiva
         public static double determinant(Matrix M){
-            //Caso trivial: si la matriz solo tiene una celda, ese valor es el determinante
             
+            //Caso trivial: si la matriz solo tiene una celda, ese valor es el determinante
             if(M.Count == 1)
             {
                 return M[0][0];
@@ -145,13 +154,15 @@ namespace MEF1D_code
                 for(int i=0;i<M[0].Count;i++){
                     //Se obtiene el menor de la posición actual
                     Matrix minor = new Matrix();
-                    copyMatrix(M,ref minor);
+                    copyMatrix( M,ref minor);
                     getMinor(ref minor,0,i);
 
                     //Se calculala contribución de la celda actual al determinante
                     //(valor alternante * celda actual * determinante de menor actual)
-                    det += (-1^i)*M[0][i]*determinant(minor);
+                    double aux = M[0][i];
+                    det += Math.Pow(-1,i)*aux*determinant(minor);
                 }
+                
                 return det;
             }
         }
@@ -167,6 +178,7 @@ namespace MEF1D_code
 
             //Se prepara la matriz de cofactores para que sea de las mismas
             //dimensiones de la matriz original
+            
             zeroes(ref Cof,M.Count);
             //Se recorre la matriz original
             for(int i=0;i<M.Count;i++){
@@ -177,7 +189,7 @@ namespace MEF1D_code
                     getMinor(ref minor,i,j);
                     //Se calcula el cofactor de la posición actual
                     //      alternante * determinante del menor de la posición actual
-                    Cof[i][j] = (-1^(i+j))*determinant(minor);
+                    Cof[i][j] = Math.Pow(-1,i+j)*determinant(minor);
                 }
             }
         }
@@ -192,10 +204,15 @@ namespace MEF1D_code
             zeroes(ref T,M.Count);
             //Se recorre la matriz original
             for(int i=0;i<M.Count;i++)
+            {
                 for(int j=0;j<M[0].Count;j++)
+                {
                     //La posición actual se almacena en la posición con índices
                     //invertidos de la matriz resultante
-                    T[j][i] = M[i][j];
+                    double aux = M[i][j]; 
+                    T[j][i] = aux;
+                }
+            }
         }
 
 
@@ -208,7 +225,7 @@ namespace MEF1D_code
             //Se utiliza la siguiente fórmula:
             //      (M^-1) = (1/determinant(M))*Adjunta(M)
             //             Adjunta(M) = transpose(Cofactors(M))
-
+            
             //Se preparan las matrices para la de cofactores y la adjunta
             Matrix Cof = new Matrix();
             Matrix Adj = new Matrix();
@@ -216,12 +233,17 @@ namespace MEF1D_code
             double det = determinant(M);
             //Si el determinante es 0, se aborta el programa
             //No puede dividirse entre 0 (matriz no invertible)
-            if(det == 0) Environment.Exit(1);
+            if(det == 0)
+            { 
+                Console.WriteLine("Determinante Cero");
+                Environment.Exit(1);
+            }
             
             //Se calcula la matriz de cofactores
             cofactors(M,ref Cof);
             //Se calcula la matriz adjunta
             transpose(Cof,ref Adj);
+
             //Se aplica la fórmula para la matriz inversa
             productRealMatrix(1/det,Adj,ref Minv);
         }
